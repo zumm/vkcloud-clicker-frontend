@@ -1,0 +1,10 @@
+.vscode
+node_modules
+dist
+coverage
+tests
+tools
+*.log
+*.md
+.git
+.gitinore

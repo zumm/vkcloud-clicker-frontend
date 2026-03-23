@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@plugin "@iconify/tailwind4" {
+  icon-sets:
+    from-folder(bold, "./src/assets/icons/bold"),
+    from-folder(linear, "./src/assets/icons/linear"),
+    from-folder(default, "./src/assets/icons/");
+}
+
+@theme {
+  --color-primary-darker: #005BDE;
+  --color-primary: #0077FF;
+  --color-primary-lighter: #3C97FF;
+  --color-primary-lightest: #CCE4FF;
+  --color-secondary: #B8FC75;
+
+  --font-sans: "VK Sans Display", sans-serif;
+}
+
+@utility icon-* {
+  @apply shrink-0 align-middle;
+}
+
+:root {
+  @apply bg-primary overscroll-none touch-none;
+}
+
+@theme {
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+}
+
+@utility animate-* {
+  animation-composition: --value("replace", "add", "accumulate");
+}

@@ -1,0 +1,441 @@
+openapi: 3.1.0
+paths:
+  /auth/signin:
+    post:
+      operationId: signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequestDto'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponseDto_Output'
+      tags:
+        - Auth
+  /me:
+    get:
+      operationId: getUser
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeDto_Output'
+      security:
+        - bearer: []
+      tags:
+        - Users
+  /click-session:
+    post:
+      operationId: submitClickSession
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitClickSessionRequestDto'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitClickSessionResponseDto_Output'
+      security:
+        - bearer: []
+      tags:
+        - Clicker
+  /me/active-boosters:
+    get:
+      operationId: getActiveBoosters
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBoosterViewListDto'
+      security:
+        - bearer: []
+      tags:
+        - Boosters
+  /milestones:
+    get:
+      operationId: getMilestones
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMilestonesResponseDto_Output'
+      tags:
+        - Milestones
+  /gifts:
+    get:
+      operationId: getGifts
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGiftsResponseDto_Output'
+      security:
+        - bearer: []
+      tags:
+        - Gifts
+  /me/earned-gifts:
+    get:
+      operationId: getEarnedGifts
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEarnedGiftsResponseDto_Output'
+      security:
+        - bearer: []
+      tags:
+        - Gifts
+  /jackpot:
+    get:
+      operationId: getJackpot
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetJackpotResponseDto_Output'
+      security:
+        - bearer: []
+      tags:
+        - Gifts
+  /settings:
+    get:
+      operationId: getSettings
+      parameters: []
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDto_Output'
+      tags:
+        - Admin
+info:
+  title: VK Cloud Clicker API
+  description: ''
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: Authorization
+      description: JWT token
+      in: header
+  schemas:
+    SignInRequestDto:
+      type: object
+      properties:
+        initData:
+          type: string
+          minLength: 1
+      required:
+        - initData
+    SignInResponseDto_Output:
+      type: object
+      properties:
+        token:
+          type: string
+          minLength: 1
+      required:
+        - token
+      additionalProperties: false
+    MeDto_Output:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        name:
+          anyOf:
+            - type: string
+            - type: 'null'
+        photoUrl:
+          anyOf:
+            - type: string
+            - type: 'null'
+        firstName:
+          anyOf:
+            - type: string
+            - type: 'null'
+        lastName:
+          anyOf:
+            - type: string
+            - type: 'null'
+        balance:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        promocode:
+          anyOf:
+            - type: string
+            - type: 'null'
+      required:
+        - id
+        - name
+        - photoUrl
+        - firstName
+        - lastName
+        - balance
+        - promocode
+      id: MeDto_Output
+      additionalProperties: false
+    SubmitClickSessionRequestDto:
+      type: object
+      properties:
+        totalClicks:
+          type: integer
+          exclusiveMinimum: 0
+          maximum: 9007199254740991
+        startedAt:
+          type: string
+          format: date-time
+          pattern: >-
+            ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
+        endedAt:
+          type: string
+          format: date-time
+          pattern: >-
+            ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
+      required:
+        - totalClicks
+        - startedAt
+        - endedAt
+      id: SubmitClickSessionRequestDto
+    SubmitClickSessionResponseDto_Output:
+      type: object
+      properties:
+        balance:
+          type: integer
+          exclusiveMinimum: 0
+          maximum: 9007199254740991
+        reward:
+          type: number
+          exclusiveMinimum: 0
+        isMilestoneReached:
+          type: boolean
+      required:
+        - balance
+        - reward
+        - isMilestoneReached
+      id: SubmitClickSessionResponseDto_Output
+      additionalProperties: false
+    UserBoosterViewDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - CLICK_MULTIPLIER
+            - CLICK_ADDITIVE
+        value:
+          type: number
+          minimum: -8388608
+          maximum: 8388607
+        name:
+          type: string
+        userBoosterId:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        activatedAt:
+          anyOf:
+            - type: string
+              format: date-time
+              pattern: >-
+                ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
+            - type: 'null'
+        expiresAt:
+          anyOf:
+            - type: string
+              format: date-time
+              pattern: >-
+                ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
+            - type: 'null'
+      required:
+        - type
+        - value
+        - name
+        - userBoosterId
+        - activatedAt
+        - expiresAt
+      id: UserBoosterViewDto
+    UserBoosterViewListDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserBoosterViewDto'
+      required:
+        - items
+      id: UserBoosterViewListDto
+    GetMilestonesResponseDto_Output:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                minimum: -9007199254740991
+                maximum: 9007199254740991
+              target:
+                type: integer
+                minimum: -9007199254740991
+                maximum: 9007199254740991
+              boosterId:
+                type: integer
+                minimum: -9007199254740991
+                maximum: 9007199254740991
+            required:
+              - id
+              - target
+              - boosterId
+            additionalProperties: false
+      required:
+        - items
+      id: GetMilestonesResponseDto_Output
+      additionalProperties: false
+    GiftViewDto_Output:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        name:
+          type: string
+        imageUrl:
+          anyOf:
+            - type: string
+            - type: 'null'
+        target:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+      required:
+        - id
+        - name
+        - imageUrl
+        - target
+      additionalProperties: false
+      id: GiftViewDto_Output
+    GetGiftsResponseDto_Output:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GiftViewDto_Output'
+      required:
+        - items
+      id: GetGiftsResponseDto_Output
+      additionalProperties: false
+    EarnedGiftViewDto_Output:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        name:
+          type: string
+        url:
+          type: string
+        imageUrl:
+          anyOf:
+            - type: string
+            - type: 'null'
+        target:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+      required:
+        - id
+        - name
+        - url
+        - imageUrl
+        - target
+      additionalProperties: false
+      id: EarnedGiftViewDto_Output
+    GetEarnedGiftsResponseDto_Output:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarnedGiftViewDto_Output'
+      required:
+        - items
+      id: GetEarnedGiftsResponseDto_Output
+      additionalProperties: false
+    GetJackpotResponseDto_Output:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: -9007199254740991
+          maximum: 9007199254740991
+        name:
+          type: string
+        imageUrl:
+          anyOf:
+            - type: string
+            - type: 'null'
+      required:
+        - id
+        - name
+        - imageUrl
+      id: GetJackpotResponseDto_Output
+      additionalProperties: false
+    SettingsDto_Output:
+      type: object
+      properties:
+        campaignState:
+          type: string
+          enum:
+            - LIVE
+            - OVER
+      required:
+        - campaignState
+      id: SettingsDto_Output
+      additionalProperties: false
