@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_CLICK_SESSION_MIN_DURATION: string
   readonly VITE_DEFAULT_INIT_DATA: string
   readonly VITE_MILESTONE_EPSILON: string
+  readonly VITE_FEED_SPEED: string
 }
 
 interface ImportMeta {
