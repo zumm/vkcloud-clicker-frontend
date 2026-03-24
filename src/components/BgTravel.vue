@@ -17,30 +17,24 @@ const viewportRef = useTemplateRef('viewportRef')
 const { width: viewportWidth, height: viewportHeight } = useElementSize(viewportRef)
 
 const maxOffset = computed(() => {
-  return TOTAL_HEIGHT - viewportHeight.value
+  return Math.max(0, TOTAL_HEIGHT - viewportHeight.value)
 })
 
-const initialScale = computed(() => (viewportWidth.value / CHUNK_WIDTH) || 1)
-
 const y = motionValue(0)
-const scale = motionValue(0)
 watchEffect(() => {
   y.set(Math.ceil(0 + progress.value * maxOffset.value))
-  scale.set(initialScale.value + (1 - initialScale.value) * progress.value)
 })
 
 const y_ = useSpring(y, { restDelta: 1, restSpeed: 100 })
-const scale_ = useSpring(scale)
 
 // preventing animations to initial state
 watch(viewportWidth, (_, oldValue) => {
   if (oldValue === 0) {
     y_.jump(y.get())
-    scale_.jump(scale.get())
   }
 })
 
-const chunksPerViewport = computed(() => Math.ceil(viewportHeight.value / CHUNK_HEIGHT / initialScale.value) + 2)
+const chunksPerViewport = computed(() => Math.ceil(viewportHeight.value / CHUNK_HEIGHT) + 2)
 const getChunkIndexByOffset = (offset: number) => {
   return clamp(0, CHUNKS.length - chunksPerViewport.value, Math.floor(offset / CHUNK_HEIGHT))
 }
@@ -81,16 +75,9 @@ const CHUNK_STYLES = {
     ref="viewportRef"
     class="pointer-events-none relative overflow-hidden select-none"
   >
-    <Motion
-      :key="chunkIndex"
-      class="
-        absolute bottom-0 left-1/2 origin-bottom -translate-x-1/2
-        will-change-transform
-      "
-      :style="{ scale: scale_ }"
-    >
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2">
       <Motion
-        class="will-change-transform"
+        class="origin-bottom will-change-transform"
         :style="{ y: localY }"
       >
         <img
@@ -98,9 +85,9 @@ const CHUNK_STYLES = {
           :key="chunk"
           :src="chunk"
           :style="CHUNK_STYLES"
-          class="max-w-none"
+          class="max-w-none bg-neutral-100"
         >
       </Motion>
-    </Motion>
+    </div>
   </div>
 </template>
