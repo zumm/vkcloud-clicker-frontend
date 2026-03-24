@@ -11,7 +11,7 @@ const CHUNK_WIDTH = 1144
 const CHUNK_HEIGHT = 285
 const TOTAL_HEIGHT = CHUNKS.length * CHUNK_HEIGHT
 
-const { progress } = storeToRefs(useProgressStore())
+const { totalProgress: progress } = storeToRefs(useProgressStore())
 
 const viewportRef = useTemplateRef('viewportRef')
 const { width: viewportWidth, height: viewportHeight } = useElementSize(viewportRef)

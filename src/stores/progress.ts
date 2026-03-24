@@ -1,6 +1,7 @@
 import { clamp } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
+import { getLast } from '@/helpers/get-last'
 import { useEarnedGifts, useGifts } from '@/loaders/gifts'
 import { useUserData } from '@/loaders/user-data'
 import { useClickSessionsStore } from '@/stores/click-sessions'
@@ -13,10 +14,13 @@ export const useProgressStore = defineStore('progress', () => {
   const { data: gifts } = useGifts()
   const { data: earnedGifts } = useEarnedGifts()
 
+  const lastGift = computed(() => getLast(gifts.value))
   const previousGift = computed(() => gifts.value[earnedGifts.value.length - 1])
   const nextGift = computed(() => gifts.value[earnedGifts.value.length])
 
-  const progress = computed(() => {
+  const totalProgress = computed(() => clamp(balance.value / (lastGift.value?.target || 1), 0, 1))
+
+  const giftProgress = computed(() => {
     const previousTarget = previousGift.value?.target ?? 0
     const nextTarget = nextGift.value?.target ?? previousTarget
     const target = nextTarget - previousTarget
@@ -30,9 +34,11 @@ export const useProgressStore = defineStore('progress', () => {
 
   return {
     balance,
+    lastGift,
     previousGift,
     nextGift,
-    progress,
+    totalProgress,
+    giftProgress,
   }
 })
 

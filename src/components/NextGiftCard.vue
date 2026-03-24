@@ -5,7 +5,7 @@ import CardTitle from '@/components/kit/CardTitle.vue'
 import ProgressBar from '@/components/kit/ProgressBar.vue'
 import { useProgressStore } from '@/stores/progress'
 
-const { nextGift, progress } = storeToRefs(useProgressStore())
+const { nextGift, giftProgress } = storeToRefs(useProgressStore())
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const { nextGift, progress } = storeToRefs(useProgressStore())
 
     <ProgressBar
       class="mt-2"
-      :progress="progress"
+      :progress="giftProgress"
       no-marks
     />
   </Card>

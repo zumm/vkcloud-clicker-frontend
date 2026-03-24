@@ -33,14 +33,14 @@ definePage({
   meta: { layout: 'hud' },
 })
 
-const { progress, balance, nextGift } = storeToRefs(useProgressStore())
+const { giftProgress, balance, nextGift } = storeToRefs(useProgressStore())
 const boostersStore = useBoostersStore()
 const clickSessionsStore = useClickSessionsStore()
 
 const isIntermission = shallowRef(false)
 const { data: earnedGifts, refetch: refetchEarnedGifts } = useEarnedGifts()
 const lastEarnedGift = shallowRef<EarnedGiftViewDtoOutput | undefined>()
-whenever(() => progress.value >= 1, async () => {
+whenever(() => giftProgress.value >= 1, async () => {
   if (isIntermission.value) {
     return
   }

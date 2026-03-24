@@ -6,7 +6,7 @@ import { computed, useTemplateRef, watch, watchEffect } from 'vue'
 import PhoneMock from '@/components/PhoneMock.vue'
 import { useProgressStore } from '@/stores/progress'
 
-const { progress } = storeToRefs(useProgressStore())
+const { giftProgress: progress } = storeToRefs(useProgressStore())
 
 const rootRef = useTemplateRef('rootRef')
 const { height: rootHeight } = useElementSize(rootRef)
