@@ -1,27 +1,36 @@
 <script lang="ts">
 import { useActiveBoosters } from '@/loaders/boosters'
-import { useEarnedGifts, useGifts } from '@/loaders/gifts'
+import { useEarnedGifts, useGifts, useJackpot } from '@/loaders/gifts'
 import { useMilestones } from '@/loaders/milestones'
 import { useUserData } from '@/loaders/user-data'
 
-export { useActiveBoosters, useEarnedGifts, useGifts, useMilestones, useUserData }
+export {
+  useActiveBoosters, // for useBoostersStore
+  useEarnedGifts, // for local, useProgressStore, NextGiftCard, PhonePerspective
+  useGifts, // for useProgressStore, NextGiftCard, PhonePerspective
+  useJackpot, // for NextGiftCard
+  useMilestones, // for useMilestonesReach
+  useUserData, // for useProgressStore, NextGiftCard, PhonePerspective
+}
 </script>
 
 <script setup lang="ts">
 import type { EarnedGiftViewDtoOutput } from '@/api'
 import { until, whenever } from '@vueuse/core'
-import { Motion } from 'motion-v'
+import { AnimatePresence, Motion } from 'motion-v'
 import { storeToRefs } from 'pinia'
 import { shallowRef, useTemplateRef } from 'vue'
 import BgTravel from '@/components/BgTravel.vue'
 import BoosterIndicator from '@/components/BoosterIndicator.vue'
 import ClickerArea from '@/components/ClickerArea.vue'
-import FirstStepPopup from '@/components/FirstStepPopup.vue'
+import FirstStepCard from '@/components/FirstStepCard.vue'
 import GiftModal from '@/components/GiftModal.vue'
+import Overlay from '@/components/kit/Overlay.vue'
 import MilestoneIndicator from '@/components/MilestoneIndicator.vue'
 import NextGiftCard from '@/components/NextGiftCard.vue'
 import NotificationQueue from '@/components/NotificationQueue.vue'
 import PhonePerspective from '@/components/PhonePerspective.vue'
+import SlapAnimation from '@/components/SlapAnimation.vue'
 import Stack from '@/components/Stack.vue'
 import { useMilestonesReach } from '@/composables/milestones-reach'
 import { getLast } from '@/helpers/get-last'
@@ -110,11 +119,16 @@ onReached((milestone) => {
   >
     <BgTravel class="fixed! inset-0 -z-1 mx-auto max-w-md min-w-75" />
 
+    <div
+      class="
+        pointer-events-none absolute top-0 left-0 -z-1 h-50 w-full bg-linear-180
+        from-primary
+      "
+    />
+
     <NextGiftCard />
 
-    <hr class="mt-5 mb-2.5 border-t-2 border-dashed border-primary-lightest/40">
-
-    <div class="relative grow">
+    <div class="relative mt-5 grow">
       <Stack
         class="relative z-9"
         :items="inReach"
@@ -138,18 +152,26 @@ onReached((milestone) => {
         class="absolute top-15 z-10 w-full"
       />
 
-      <FirstStepPopup
-        class="
-          pointer-events-auto absolute inset-x-0 top-9 z-11 mx-auto max-w-fit
-          select-none
-        "
-      />
+      <AnimatePresence>
+        <template v-if="balance === 0 && nextGift">
+          <Overlay class="z-100" />
+
+          <SlapAnimation
+            class="
+              pointer-events-auto absolute inset-x-0 top-9 z-100 mx-auto
+              max-w-fit select-none
+            "
+          >
+            <FirstStepCard :first-gift="nextGift" />
+          </SlapAnimation>
+        </template>
+      </AnimatePresence>
 
       <div class="absolute top-0 bottom-12 flex w-full justify-center">
         <PhonePerspective class="absolute! inset-0" />
 
         <ClickerArea
-          class="absolute! bottom-23"
+          class="absolute! bottom-23 z-100"
           :click-power="boostersStore.clickPower"
           :class="{
             'pointer-events-auto': !isIntermission,

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useEarnedGifts, useGifts, useJackpot } from '@/loaders/gifts'
 
+// all for local
 export { useEarnedGifts, useGifts, useJackpot }
 </script>
 

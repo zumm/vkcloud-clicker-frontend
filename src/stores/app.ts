@@ -4,7 +4,6 @@ import { shallowRef } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   const isOnboardingSeen = useLocalStorage('isOnboardingSeen', false)
-  const isFirstStepPopupSeen = useLocalStorage('isFirstStepPopupSeen', false)
   const isJackpotModalSeen = useLocalStorage('isJackpotModalSeen', false)
 
   const isPressed = shallowRef(false)
@@ -26,7 +25,6 @@ export const useAppStore = defineStore('app', () => {
 
   return {
     isOnboardingSeen,
-    isFirstStepPopupSeen,
     isJackpotModalSeen,
     isPressed,
     isLoading,

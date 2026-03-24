@@ -43,7 +43,7 @@ defineProps<{
 
     <Button
       class="mt-4 w-full text-center"
-      variance="accent"
+      variant="accent"
       @click="close"
     >
       Продолжить игру

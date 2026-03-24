@@ -1,11 +1,11 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
   as?: string
-  variance?: 'default' | 'accent'
+  variant?: 'default' | 'accent'
   isLoading?: boolean
 }>(), {
   as: 'button',
-  variance: 'default',
+  variant: 'default',
 })
 </script>
 
@@ -17,8 +17,8 @@ withDefaults(defineProps<{
       disabled:cursor-default disabled:bg-zinc-800/5 disabled:text-zinc-800/60
     "
     :class="{
-      'bg-primary-darker text-neutral-100': variance === 'default',
-      'bg-secondary text-zinc-800': variance === 'accent',
+      'bg-primary-darker text-neutral-100': variant === 'default',
+      'bg-secondary text-zinc-800': variant === 'accent',
       'pointer-events-none': isLoading,
     }"
   >

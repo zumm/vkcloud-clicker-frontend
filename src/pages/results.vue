@@ -2,6 +2,7 @@
 import { useEarnedGifts, useJackpot } from '@/loaders/gifts'
 import { useUserData } from '@/loaders/user-data'
 
+// all for local
 export { useEarnedGifts, useJackpot, useUserData }
 </script>
 

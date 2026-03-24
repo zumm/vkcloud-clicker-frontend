@@ -5,7 +5,6 @@ const appStore = useAppStore()
 
 const reset = () => {
   appStore.isOnboardingSeen = false
-  appStore.isFirstStepPopupSeen = false
   appStore.isJackpotModalSeen = false
 }
 </script>

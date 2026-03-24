@@ -45,7 +45,7 @@ const { copy, copied } = useClipboard()
 
     <Button
       class="w-full text-center"
-      variance="accent"
+      variant="accent"
       @click="copy(userData.promocode)"
     >
       {{ userData.promocode }}

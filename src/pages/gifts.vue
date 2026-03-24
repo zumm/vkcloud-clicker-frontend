@@ -2,7 +2,13 @@
 import { useEarnedGifts, useGifts, useJackpot } from '@/loaders/gifts'
 import { useUserData } from '@/loaders/user-data'
 
-export { useEarnedGifts, useGifts, useJackpot, useUserData }
+// all for local
+export {
+  useEarnedGifts,
+  useGifts,
+  useJackpot,
+  useUserData,
+}
 </script>
 
 <script setup lang="ts">
@@ -46,7 +52,6 @@ const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGift
           :key="gift.id"
           class="mt-1"
           :gift="gift"
-          :current-balance="userData.balance"
         />
 
         <JackpotCard
@@ -76,7 +81,6 @@ const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGift
           :key="gift.id"
           class="mt-1"
           :gift="gift"
-          :current-balance="userData.balance"
         />
 
         <JackpotCard

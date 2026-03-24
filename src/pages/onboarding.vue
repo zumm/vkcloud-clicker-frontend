@@ -56,7 +56,7 @@ const { isOnboardingSeen } = storeToRefs(useAppStore())
     >
       <Button
         class="w-full text-center"
-        variance="accent"
+        variant="accent"
         @click="(isOnboardingSeen = true) && navigate()"
       >
         Начать игру

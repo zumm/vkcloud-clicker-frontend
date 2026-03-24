@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core'
+import JackpotBadge from '@/components/JackpotBadge.vue'
 import Button from '@/components/kit/Button.vue'
 import Card from '@/components/kit/Card.vue'
 import CardTitle from '@/components/kit/CardTitle.vue'
@@ -19,14 +20,10 @@ const { copy, copied } = useClipboard()
       <i class="icon-[linear--gift] text-[1.5rem]" />
       {{ name }}
 
-      <div
-        class="
-          inline-block rounded-full bg-secondary px-3 py-1 text-sm text-zinc-800
-          uppercase
-        "
-      >
-        Суперприз
-      </div>
+      <JackpotBadge
+        class="ml-1"
+        variant="secondary"
+      />
 
       <i
         class="ml-auto text-[1.5rem]"
@@ -40,7 +37,7 @@ const { copy, copied } = useClipboard()
     <template v-if="code">
       <Button
         class="w-full text-center"
-        variance="accent"
+        variant="accent"
         @click="copy(code)"
       >
         {{ code }}

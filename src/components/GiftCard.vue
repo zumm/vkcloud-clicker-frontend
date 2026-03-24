@@ -36,7 +36,7 @@ withDefaults(defineProps<{
       <Button
         as="a"
         class="my-2.5 block w-full text-center"
-        variance="accent"
+        variant="accent"
         :href="gift.url"
         target="_blank"
       >
