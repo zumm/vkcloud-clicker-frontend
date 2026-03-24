@@ -4,7 +4,7 @@
 
     <a
       class="text-secondary underline"
-      href="#"
+      href="https://blog.mail.ru/clicker_2026_rules/"
       target="_blank"
     >
       по ссылке
