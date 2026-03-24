@@ -12,37 +12,42 @@ const { isOnboardingSeen } = storeToRefs(useAppStore())
 <template>
   <Container
     as="main"
-    class="px-2.5 py-8"
+    class="px-2.5 py-4"
   >
     <i class="mx-auto icon-[linear--cloud] block text-[6.25rem] text-neutral-100" />
 
-    <h1 class="mt-8 text-center text-2xl font-medium text-neutral-100">
-      Кликер, который увеличит память телефона
+    <h1 class="mt-2 text-center text-2xl font-medium text-neutral-100">
+      Кликер, который увеличит
+      <br>
+      память телефона
     </h1>
 
-    <p class="mt-5 px-8 text-center text-base font-medium text-neutral-100">
+    <p class="mt-5 text-center text-xl font-medium text-neutral-100">
       Кликай и получай
       <span class="font-semibold text-secondary">
-        гигабайты памяти
+        гигабайты
+        <br>
+        памяти
       </span>
       в Облаке Mail
     </p>
 
     <img
-      class="pointer-events-none mx-auto mt-2.5 w-60 select-none"
+      class="pointer-events-none mx-auto mt-2.5 w-50 shrink select-none"
       src="@/assets/gifts.webp"
       alt="Призы"
     >
 
-    <p class="px-16 text-center text-xl text-neutral-100">
-      Участвуй
+    <p class="text-center text-xl text-neutral-100">
+      Пройди все уровни и участвуй
+      <br>
+      в розыгрыше
       <span class="font-semibold text-secondary">
-        в розыгрыше 1ТБ
+        1 ТБ в Облаке на год
       </span>
-      в Облаке на год
     </p>
 
-    <hr class="my-8 border-t border-neutral-100/25">
+    <hr class="my-4 border-t border-neutral-100/25">
 
     <RouterLink
       v-slot="{ navigate }"
