@@ -15,17 +15,7 @@
   --color-secondary: #B8FC75;
 
   --font-sans: "VK Sans Display", sans-serif;
-}
 
-@utility icon-* {
-  @apply shrink-0 align-middle;
-}
-
-:root {
-  @apply bg-primary overscroll-none touch-none;
-}
-
-@theme {
   --animate-wiggle: wiggle 1s ease-in-out infinite;
   @keyframes wiggle {
     0%,
@@ -38,6 +28,14 @@
   }
 }
 
+@utility icon-* {
+  @apply shrink-0 align-middle;
+}
+
 @utility animate-* {
   animation-composition: --value("replace", "add", "accumulate");
+}
+
+:root {
+  @apply bg-primary overscroll-none;
 }

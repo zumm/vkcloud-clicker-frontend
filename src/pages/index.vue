@@ -103,7 +103,11 @@ onReached((milestone) => {
     :gift="lastEarnedGift"
   />
 
-  <main class="pointer-events-none flex min-h-dvh flex-col pt-2.5 select-none">
+  <main
+    class="
+      pointer-events-none flex min-h-dvh touch-none flex-col pt-2.5 select-none
+    "
+  >
     <BgTravel class="fixed! inset-0 -z-1 mx-auto max-w-md min-w-75" />
 
     <NextGiftCard />
