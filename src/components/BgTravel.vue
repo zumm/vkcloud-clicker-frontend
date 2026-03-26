@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useElementSize } from '@vueuse/core'
-import { clamp, Motion, motionValue, useMotionValueEvent, useSpring } from 'motion-v'
+import { clamp, useElementSize } from '@vueuse/core'
+import { Motion, motionValue, useMotionValueEvent, useSpring } from 'motion-v'
 import { storeToRefs } from 'pinia'
 import { computed, ref, useTemplateRef, watch, watchEffect } from 'vue'
 import { preloadImageQuietly } from '@/helpers/preload-image'
@@ -36,7 +36,7 @@ watch(viewportWidth, (_, oldValue) => {
 
 const chunksPerViewport = computed(() => Math.ceil(viewportHeight.value / CHUNK_HEIGHT) + 2)
 const getChunkIndexByOffset = (offset: number) => {
-  return clamp(0, CHUNKS.length - chunksPerViewport.value, Math.floor(offset / CHUNK_HEIGHT))
+  return clamp(Math.floor(offset / CHUNK_HEIGHT), 0, CHUNKS.length - chunksPerViewport.value)
 }
 
 const chunkIndex = ref(0)

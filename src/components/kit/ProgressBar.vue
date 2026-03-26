@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { clamp } from '@vueuse/core'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
@@ -14,7 +15,7 @@ const props = withDefaults(defineProps<{
   noMarks: false,
 })
 
-const clampedProgress = computed(() => Math.max(0, Math.min(1, props.progress)))
+const clampedProgress = computed(() => clamp(props.progress, 0, 1))
 </script>
 
 <template>
