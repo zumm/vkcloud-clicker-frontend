@@ -5,7 +5,7 @@ import sharp from 'sharp'
 const QUALITY = 92
 const INPUT_FOLDER = 'raw-bg'
 const OUTPUT_FOLDER = 'bg'
-const CHUNK_COUNT = 69;
+const CHUNK_COUNT = 80;
 
 (async () => {
   const imageFiles = fs.readdirSync(INPUT_FOLDER).sort()

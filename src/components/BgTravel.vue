@@ -7,8 +7,8 @@ import { preloadImageQuietly } from '@/helpers/preload-image'
 import { useProgressStore } from '@/stores/progress'
 
 const CHUNKS = Object.values(import.meta.glob<string>('@/assets/bg/*.webp', { eager: true, import: 'default' })).reverse()
-const CHUNK_WIDTH = 1144
-const CHUNK_HEIGHT = 285
+const CHUNK_WIDTH = 448
+const CHUNK_HEIGHT = 500
 const TOTAL_HEIGHT = CHUNKS.length * CHUNK_HEIGHT
 
 const { totalProgress: progress } = storeToRefs(useProgressStore())
