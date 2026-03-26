@@ -1,6 +1,6 @@
 import type { UserBoosterViewDto } from '@/api'
 import { useQueryCache } from '@pinia/colada'
-import { createEventHook, tryOnScopeDispose, useArrayFilter, useArrayReduce, useSorted } from '@vueuse/core'
+import { tryOnScopeDispose, useArrayFilter, useArrayReduce, useSorted } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, watch } from 'vue'
 import { getLast } from '@/helpers/get-last'
@@ -71,28 +71,12 @@ export const useBoostersStore = defineStore('boosters', () => {
     return (1 + CLICK_ADDITIVE) * CLICK_MULTIPLIER
   })
 
-  const newBoosterHook = createEventHook<UserBoosterViewDto>()
-  let lastBoosterActivatedAt = Math.max(...boosters.value.map(({ activatedAt }) => activatedAt?.valueOf() ?? 0))
-  watch(boosters, (boosters) => {
-    const newBoosters = boosters.filter(({ activatedAt }) => (activatedAt?.valueOf() ?? 0) > lastBoosterActivatedAt)
-
-    for (const booster of newBoosters) {
-      newBoosterHook.trigger(booster)
-      lastBoosterActivatedAt = Math.max(lastBoosterActivatedAt, booster.activatedAt?.valueOf() ?? 0)
-    }
-
-    if (newBoosters.length > 0) {
-      flush()
-    }
-  })
-
   return {
     sortedBoosters,
     shortestBooster,
     longestBooster,
     boostersSummary,
     clickPower,
-    onNewBooster: newBoosterHook.on,
   }
 })
 

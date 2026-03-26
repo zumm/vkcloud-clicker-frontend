@@ -49,6 +49,7 @@ export const useClickSessionsUploader = createSharedComposable(() => {
       }
 
       if (isMilestoneReached) {
+        clickSessionsStore.flush()
         queryCache.invalidateQueries({ key: activeBoostersKey }, true)
       }
 

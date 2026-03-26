@@ -5,35 +5,31 @@ import { useMilestones } from '@/loaders/milestones'
 import { useUserData } from '@/loaders/user-data'
 
 export {
-  useActiveBoosters, // for useBoostersStore
-  useEarnedGifts, // for local, useProgressStore, NextGiftCard, PhonePerspective
-  useGifts, // for useProgressStore, NextGiftCard, PhonePerspective
+  useActiveBoosters, // for useBoostersStore, Indicators
+  useEarnedGifts, // for local, useProgressStore, NextGiftCard, PhonePerspective, Indicators
+  useGifts, // for useProgressStore, NextGiftCard, PhonePerspective, Indicators
   useJackpot, // for NextGiftCard
-  useMilestones, // for useMilestonesReach
-  useUserData, // for useProgressStore, NextGiftCard, PhonePerspective
+  useMilestones, // for Indicators
+  useUserData, // for useProgressStore, NextGiftCard, PhonePerspective, Indicators
 }
 </script>
 
 <script setup lang="ts">
 import type { EarnedGiftViewDtoOutput } from '@/api'
 import { promiseTimeout, until, whenever } from '@vueuse/core'
-import { AnimatePresence, Motion } from 'motion-v'
+import { AnimatePresence } from 'motion-v'
 import { storeToRefs } from 'pinia'
-import { shallowRef, useTemplateRef } from 'vue'
+import { shallowRef } from 'vue'
 import BgTravel from '@/components/BgTravel.vue'
-import BoosterIndicator from '@/components/BoosterIndicator.vue'
 import ClickerArea from '@/components/ClickerArea.vue'
 import FirstStepCard from '@/components/FirstStepCard.vue'
 import GiftFall from '@/components/GiftFall.vue'
 import GiftModal from '@/components/GiftModal.vue'
+import Indicators from '@/components/Indicators.vue'
 import Overlay from '@/components/kit/Overlay.vue'
-import MilestoneIndicator from '@/components/MilestoneIndicator.vue'
 import NextGiftCard from '@/components/NextGiftCard.vue'
-import NotificationQueue from '@/components/NotificationQueue.vue'
 import PhonePerspective from '@/components/PhonePerspective.vue'
 import SlapAnimation from '@/components/SlapAnimation.vue'
-import Stack from '@/components/Stack.vue'
-import { useMilestonesReach } from '@/composables/milestones-reach'
 import { getLast } from '@/helpers/get-last'
 import { useBoostersStore } from '@/stores/boosters'
 import { useClickSessionsStore } from '@/stores/click-sessions'
@@ -85,40 +81,6 @@ whenever(() => giftProgress.value >= 1, async () => {
     isIntermission.value = false
   }
 })
-
-const queueRef = useTemplateRef('queueRef')
-
-boostersStore.onNewBooster((booster) => {
-  queueRef.value?.push({
-    id: `booster-${booster.userBoosterId}`,
-    durationMs: 2000,
-    component: BoosterIndicator,
-    props: { booster },
-  })
-})
-
-const { inReach, onInReach, onReached, add, remove } = useMilestonesReach(balance)
-const reachedMilestonesIds = new Set<number>()
-
-onInReach((milestone) => {
-  const id = `milestone-${milestone.id}`
-  queueRef.value?.push({
-    id,
-    durationMs: 2000,
-    component: MilestoneIndicator,
-    props: { milestone },
-    slapProps: { layoutId: id, initial: { scale: 1.3 } },
-    onComplete: () => {
-      !reachedMilestonesIds.has(milestone.id) && add(milestone)
-    },
-  })
-})
-
-onReached((milestone) => {
-  clickSessionsStore.flush()
-  reachedMilestonesIds.add(milestone.id)
-  remove(milestone)
-})
 </script>
 
 <template>
@@ -153,28 +115,7 @@ onReached((milestone) => {
     <NextGiftCard />
 
     <div class="relative mt-5 grow">
-      <Stack
-        class="relative z-9"
-        :items="inReach"
-      >
-        <template #default="{ item: milestone }">
-          <Motion
-            :key="milestone.id"
-            :layout-id="`milestone-${milestone.id}`"
-            as-child
-            :initial="{ opacity: 0.5, scale: 0.9 }"
-            :animate="{ opacity: 1, scale: 1 }"
-            :exit="{ opacity: 0, scale: 0.9 }"
-          >
-            <MilestoneIndicator :milestone="milestone" />
-          </Motion>
-        </template>
-      </Stack>
-
-      <NotificationQueue
-        ref="queueRef"
-        class="absolute top-15 z-10 w-full"
-      />
+      <Indicators class="z-10" />
 
       <AnimatePresence>
         <template v-if="balance === 0 && nextGift">
