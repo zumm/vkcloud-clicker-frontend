@@ -1,6 +1,7 @@
 import type { MaybeRefOrGetter } from 'vue'
 import { createEventHook } from '@vueuse/core'
 import { shallowRef, toValue, watch } from 'vue'
+import { MILESTONE_EPSILON } from '@/env'
 import { useMilestones } from '@/loaders/milestones'
 
 interface Milestone {
@@ -8,8 +9,6 @@ interface Milestone {
   target: number
   boosterId: number
 }
-
-const MILESTONE_EPSILON = Number(import.meta.env.VITE_MILESTONE_EPSILON ?? 250)
 
 const isInReach = (balance: number, target: number) => {
   return balance >= target - MILESTONE_EPSILON && target > balance

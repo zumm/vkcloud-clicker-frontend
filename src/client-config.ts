@@ -1,5 +1,6 @@
 import { client } from '@/api/client.gen'
 import { getToken, refreshToken } from '@/auth'
+import { API_BASE_URL } from '@/env'
 import { ApiError } from '@/errors/api-error'
 import { FetchError } from '@/errors/fetch-error'
 
@@ -17,7 +18,7 @@ import { FetchError } from '@/errors/fetch-error'
 
 export const configureClient = () => {
   client.setConfig({
-    baseUrl: import.meta.env.VITE_API_BASE_URL,
+    baseUrl: API_BASE_URL,
     auth: () => getToken() ?? '',
   })
 

@@ -1,9 +1,8 @@
 import { useMiniApp } from 'vue-tg'
-import { signIn } from './api'
+import { signIn } from '@/api'
+import { DEFAULT_INIT_DATA } from '@/env'
 
 const TOKEN_KEY = 'accessToken'
-// for development outside of tg bot
-const DEFAULT_INIT_DATA = import.meta.env.VITE_DEFAULT_INIT_DATA
 
 export const setToken = (token: string | null) => {
   if (token === null) {
@@ -19,10 +18,15 @@ export const getToken = () => {
 }
 
 const refreshToken = async () => {
-  let { initData } = useMiniApp()
+  let initData
+
+  try {
+    initData = useMiniApp().initData
+  }
+  catch {}
 
   if (!initData) {
-    initData = DEFAULT_INIT_DATA
+    initData = DEFAULT_INIT_DATA ?? ''
   }
 
   const data = await signIn({

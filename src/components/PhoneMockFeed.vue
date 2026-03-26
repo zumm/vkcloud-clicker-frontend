@@ -3,8 +3,8 @@ import type { MotionValue } from 'motion-v'
 import { useElementSize } from '@vueuse/core'
 import { Motion, motionValue, useMotionValueEvent, useTime } from 'motion-v'
 import { computed, shallowRef, useTemplateRef, watch } from 'vue'
+import { FEED_SPEED } from '@/env'
 
-const FEED_SPEED = Number(import.meta.env.VITE_FEED_SPEED || 100)
 const COLUMN_COUNT = 4
 const IMAGES = Object.values(import.meta.glob<string>('@/assets/feed/*.webp', { eager: true, import: 'default' }))
 

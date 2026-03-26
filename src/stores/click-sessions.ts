@@ -2,10 +2,11 @@ import type { Serializer } from '@vueuse/core'
 import { tryOnScopeDispose, useArrayReduce, useLocalStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
-
-const CLICK_SESSION_MAX_SIZE = Number(import.meta.env.VITE_CLICK_SESSION_MAX_SIZE ?? 200)
-const CLICK_SESSION_MAX_DURATION = Number(import.meta.env.VITE_CLICK_SESSION_MAX_DURATION ?? 5000)
-const CLICK_SESSION_MIN_DURATION = Number(import.meta.env.VITE_CLICK_SESSION_MIN_DURATION ?? 50)
+import {
+  CLICK_SESSION_MAX_DURATION,
+  CLICK_SESSION_MAX_SIZE,
+  CLICK_SESSION_MIN_DURATION,
+} from '@/env'
 
 interface ClickSession {
   totalClicks: number
