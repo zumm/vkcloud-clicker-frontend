@@ -16,7 +16,7 @@ export {
 
 <script setup lang="ts">
 import type { EarnedGiftViewDtoOutput } from '@/api'
-import { until, whenever } from '@vueuse/core'
+import { promiseTimeout, until, whenever } from '@vueuse/core'
 import { AnimatePresence, Motion } from 'motion-v'
 import { storeToRefs } from 'pinia'
 import { shallowRef, useTemplateRef } from 'vue'
@@ -24,6 +24,7 @@ import BgTravel from '@/components/BgTravel.vue'
 import BoosterIndicator from '@/components/BoosterIndicator.vue'
 import ClickerArea from '@/components/ClickerArea.vue'
 import FirstStepCard from '@/components/FirstStepCard.vue'
+import GiftFall from '@/components/GiftFall.vue'
 import GiftModal from '@/components/GiftModal.vue'
 import Overlay from '@/components/kit/Overlay.vue'
 import MilestoneIndicator from '@/components/MilestoneIndicator.vue'
@@ -47,6 +48,7 @@ const boostersStore = useBoostersStore()
 const clickSessionsStore = useClickSessionsStore()
 
 const isIntermission = shallowRef(false)
+const isGiftFallAnimationPlaying = shallowRef(false)
 const { data: earnedGifts, refetch: refetchEarnedGifts } = useEarnedGifts()
 const lastEarnedGift = shallowRef<EarnedGiftViewDtoOutput | undefined>()
 whenever(() => giftProgress.value >= 1, async () => {
@@ -55,13 +57,27 @@ whenever(() => giftProgress.value >= 1, async () => {
   }
 
   isIntermission.value = true
+  isGiftFallAnimationPlaying.value = true
   lastEarnedGift.value = undefined
+
+  const startedAt = Date.now()
 
   try {
     clickSessionsStore.flush()
 
     await until(() => clickSessionsStore.totalValue).toBe(0, { flush: 'pre' })
+
+    // await for giftProgress recalculation
+    await promiseTimeout(101)
+    // misprediction
+    if (giftProgress.value < 1) {
+      return
+    }
+
     await refetchEarnedGifts()
+
+    // ensure gift fall animation plays for at least 5s
+    await promiseTimeout(5000 - (Date.now() - startedAt))
 
     lastEarnedGift.value = getLast(earnedGifts.value)
   }
@@ -110,6 +126,7 @@ onReached((milestone) => {
     v-if="lastEarnedGift && nextGift"
     class="z-10000!"
     :gift="lastEarnedGift"
+    @close="isGiftFallAnimationPlaying = false"
   />
 
   <main
@@ -118,6 +135,13 @@ onReached((milestone) => {
     "
   >
     <BgTravel class="fixed! inset-0 -z-1 mx-auto max-w-md min-w-75" />
+
+    <AnimatePresence>
+      <GiftFall
+        v-if="isGiftFallAnimationPlaying"
+        class="z-999"
+      />
+    </AnimatePresence>
 
     <div
       class="

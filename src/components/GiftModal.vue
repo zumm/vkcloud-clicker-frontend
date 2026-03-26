@@ -11,10 +11,17 @@ interface Gift {
 defineProps<{
   gift: Gift
 }>()
+
+defineEmits<{
+  close: []
+}>()
 </script>
 
 <template>
-  <Modal v-slot="{ close }">
+  <Modal
+    v-slot="{ close }"
+    @close="$emit('close')"
+  >
     <h2 class="flex gap-2 text-neutral-100">
       <i class="icon-[linear--gift] text-[1.5rem]" />
 
