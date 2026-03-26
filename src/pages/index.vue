@@ -5,7 +5,7 @@ import { useMilestones } from '@/loaders/milestones'
 import { useUserData } from '@/loaders/user-data'
 
 export {
-  useActiveBoosters, // for useBoostersStore, Indicators
+  useActiveBoosters, // for useBoostersStore, Indicators, PhonePerspective
   useEarnedGifts, // for local, useProgressStore, NextGiftCard, PhonePerspective, Indicators
   useGifts, // for useProgressStore, NextGiftCard, PhonePerspective, Indicators
   useJackpot, // for NextGiftCard

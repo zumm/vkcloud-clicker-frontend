@@ -2,8 +2,10 @@
 import { storeToRefs } from 'pinia'
 import PhoneMockFeed from '@/components/PhoneMockFeed.vue'
 import { useAppStore } from '@/stores/app'
+import { useBoostersStore } from '@/stores/boosters'
 
 const { isPressed } = storeToRefs(useAppStore())
+const { clickPower } = storeToRefs(useBoostersStore())
 </script>
 
 <template>
@@ -23,6 +25,7 @@ const { isPressed } = storeToRefs(useAppStore())
       :class="{
         'shadow-zinc-800/35': !isPressed,
         'shadow-secondary/65': isPressed,
+        'shadow-[2px_6px_30px_0]! shadow-orange-600!': clickPower > 1,
       }"
     >
       <PhoneMockFeed class="size-full" />
