@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import { createVfm } from 'vue-final-modal'
 import { DataLoaderPlugin } from 'vue-router/experimental'
 import { configureClient } from '@/client-config'
+import coladaHooks from '@/colada-hooks'
 import App from '@/Preloader.vue'
 import router from '@/router'
 import 'unfonts.css'
@@ -18,7 +19,7 @@ const vfm = createVfm()
 app.use(DataLoaderPlugin, { router })
 app.use(router)
 app.use(pinia)
-app.use(PiniaColada)
+app.use(PiniaColada, { plugins: [coladaHooks] })
 app.use(vfm)
 
 app.mount('#app')
