@@ -115,7 +115,7 @@ whenever(() => giftProgress.value >= 1, async () => {
     <NextGiftCard />
 
     <div class="relative mt-5 grow">
-      <Indicators class="z-10" />
+      <Indicators class="relative z-10" />
 
       <AnimatePresence>
         <template v-if="balance === 0 && nextGift">

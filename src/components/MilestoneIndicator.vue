@@ -16,16 +16,17 @@ const progress = computed(() => clamp((balance.value - props.milestone.target) /
 </script>
 
 <template>
-  <section class="flex gap-0.5 rounded-lg bg-secondary p-1 pr-2">
+  <section class="flex items-center gap-1 rounded-lg bg-primary p-2 pr-3">
     <ProgressIcon
-      class="text-lg text-primary"
+      class="text-3xl text-secondary"
       linear-icon-class="icon-[linear--flash]"
       bold-icon-class="icon-[bold--flash]"
       :progress="progress"
     />
 
-    <p class="text-xs font-medium text-zinc-800">
-      Продолжай кликать и получи ускорение!
+    <p class="text-xs/tight font-medium text-neutral-100">
+      Продолжай кликать<br>
+      и получи ускорение!
     </p>
   </section>
 </template>
