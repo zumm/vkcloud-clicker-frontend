@@ -29,8 +29,8 @@ const clampedProgress = computed(() => clamp(props.progress, 0, 1))
       <div
         class="
           h-5 w-full translate-x-[calc(var(--progress)*100%-100%)] rounded-full
-          bg-current bg-[url('@/assets/progress-bar-bg.svg')]
-          transition-[translate,color] duration-300
+          bg-current bg-[url('@/assets/progress-bar-bg.svg')] transition-colors
+          duration-300
         "
       />
     </div>

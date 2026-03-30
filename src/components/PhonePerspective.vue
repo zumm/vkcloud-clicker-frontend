@@ -25,7 +25,7 @@ const getRealHeight = (height: number) => {
 
 const phoneRealMinHeight = computed(() => getRealHeight(phoneMinHeight.value))
 const phoneRealMaxHeight = computed(() => getRealHeight(phoneMaxHeight.value))
-const phoneYOffset = computed(() => phoneRealMaxHeight.value - phoneRealMinHeight.value)
+const phoneYOffset = computed(() => Math.max(0, phoneRealMaxHeight.value - phoneRealMinHeight.value))
 
 const y = motionValue(0)
 watchEffect(() => {

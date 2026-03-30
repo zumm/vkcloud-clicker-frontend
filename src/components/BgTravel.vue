@@ -2,14 +2,15 @@
 import { clamp, useElementSize } from '@vueuse/core'
 import { Motion, motionValue, useMotionValueEvent, useSpring } from 'motion-v'
 import { storeToRefs } from 'pinia'
-import { computed, ref, useTemplateRef, watch, watchEffect } from 'vue'
+import { computed, shallowRef, useTemplateRef, watch, watchEffect } from 'vue'
 import { preloadImageQuietly } from '@/helpers/preload-image'
 import { useProgressStore } from '@/stores/progress'
 
 const CHUNKS = Object.values(import.meta.glob<string>('@/assets/bg/*.webp', { eager: true, import: 'default' })).reverse()
+const CHUNK_COUNT = CHUNKS.length
 const CHUNK_WIDTH = 448
 const CHUNK_HEIGHT = 500
-const TOTAL_HEIGHT = CHUNKS.length * CHUNK_HEIGHT
+const TOTAL_HEIGHT = CHUNK_COUNT * CHUNK_HEIGHT
 
 const { totalProgress: progress } = storeToRefs(useProgressStore())
 
@@ -22,7 +23,7 @@ const maxOffset = computed(() => {
 
 const y = motionValue(0)
 watchEffect(() => {
-  y.set(Math.ceil(0 + progress.value * maxOffset.value))
+  y.set(Math.round(progress.value * maxOffset.value))
 })
 
 const y_ = useSpring(y, { restDelta: 1, restSpeed: 100 })
@@ -34,14 +35,14 @@ watch(viewportWidth, (_, oldValue) => {
   }
 })
 
-const chunksPerViewport = computed(() => Math.ceil(viewportHeight.value / CHUNK_HEIGHT) + 2)
+const chunksPerViewport = computed(() => Math.ceil(viewportHeight.value / CHUNK_HEIGHT) + 1)
 const getChunkIndexByOffset = (offset: number) => {
-  return clamp(Math.floor(offset / CHUNK_HEIGHT), 0, CHUNKS.length - chunksPerViewport.value)
+  return clamp(Math.floor(offset / CHUNK_HEIGHT), 0, CHUNK_COUNT - chunksPerViewport.value)
 }
 
-const chunkIndex = ref(0)
+const chunkIndex = shallowRef(0)
 const updateChunkIndex = (y: number) => {
-  chunkIndex.value = getChunkIndexByOffset(y - CHUNK_HEIGHT)
+  chunkIndex.value = getChunkIndexByOffset(y)
 }
 
 useMotionValueEvent(y_, 'change', updateChunkIndex)
@@ -86,6 +87,7 @@ const CHUNK_STYLES = {
           :src="chunk"
           :style="CHUNK_STYLES"
           class="max-w-none bg-neutral-100"
+          decoding="sync"
         >
       </Motion>
     </div>

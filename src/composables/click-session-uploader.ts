@@ -73,7 +73,7 @@ export const useClickSessionsUploader = createSharedComposable(() => {
 
   const isActive = shallowRef(true)
   const loop = async () => {
-    if (isActive) {
+    if (isActive.value) {
       await uploadNext()
       loop()
     }
