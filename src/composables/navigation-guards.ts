@@ -53,4 +53,9 @@ export const useNavigationGuards = () => {
 
   watch(isCampaignOver, () => triggerNavigation())
   watch(isLastGiftEarned, () => triggerNavigation())
+
+  return {
+    isCampaignOver,
+    isLastGiftEarned,
+  }
 }

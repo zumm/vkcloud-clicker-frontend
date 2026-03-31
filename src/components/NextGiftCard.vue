@@ -4,7 +4,7 @@ import JackpotBadge from '@/components/JackpotBadge.vue'
 import Card from '@/components/kit/Card.vue'
 import CardTitle from '@/components/kit/CardTitle.vue'
 import ProgressBar from '@/components/kit/ProgressBar.vue'
-import { useJackpot } from '@/loaders'
+import { useJackpot } from '@/loaders/gifts'
 import { useAppStore } from '@/stores/app'
 import { useProgressStore } from '@/stores/progress'
 
