@@ -6,7 +6,7 @@ import { computed, shallowRef, useTemplateRef, watch, watchEffect } from 'vue'
 import { preloadImageQuietly } from '@/helpers/preload-image'
 import { useProgressStore } from '@/stores/progress'
 
-const CHUNKS = Object.values(import.meta.glob<string>('@/assets/bg/*.webp', { eager: true, import: 'default' })).reverse()
+const CHUNKS = Object.values(import.meta.glob<string>('@/assets/bg/*.png', { eager: true, import: 'default' })).reverse()
 const CHUNK_COUNT = CHUNKS.length
 const CHUNK_WIDTH = 448
 const CHUNK_HEIGHT = 500
@@ -78,7 +78,7 @@ const CHUNK_STYLES = {
   >
     <div class="absolute bottom-0 left-1/2 -translate-x-1/2">
       <Motion
-        class="origin-bottom will-change-transform"
+        class="origin-bottom"
         :style="{ y: localY }"
       >
         <img

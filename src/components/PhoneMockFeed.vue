@@ -6,7 +6,7 @@ import { computed, shallowRef, useTemplateRef, watch } from 'vue'
 import { FEED_SPEED } from '@/env'
 
 const COLUMN_COUNT = 4
-const IMAGES = Object.values(import.meta.glob<string>('@/assets/feed/*.webp', { eager: true, import: 'default' }))
+const IMAGES = Object.values(import.meta.glob<string>('@/assets/feed/*.png', { eager: true, import: 'default' }))
 
 const virtualRowCount = Math.max(1, Math.floor(IMAGES.length / COLUMN_COUNT))
 

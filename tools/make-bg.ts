@@ -2,12 +2,14 @@
 import fs from 'node:fs'
 import sharp from 'sharp'
 
-const QUALITY = 92
+const FORMAT = 'png'
+const FORMAT_OPTIONS = { quality: 92 }
 const INPUT_FOLDER = 'raw-bg'
 const OUTPUT_FOLDER = 'bg'
-const CHUNK_COUNT = 80;
+const CHUNK_COUNT = 80
+const SCALE = 0.5
 
-(async () => {
+;(async () => {
   const imageFiles = fs.readdirSync(INPUT_FOLDER).sort()
 
   let height = 0
@@ -29,14 +31,29 @@ const CHUNK_COUNT = 80;
   }
   console.log(`Result image is ${width}x${height}`)
 
-  const buffer = await sharp({
+  let buffer = await sharp({
     create: {
       width,
       height,
       channels: 3,
       background: 'white',
     },
-  }).composite(layers).png().toBuffer()
+  })
+    .composite(layers)
+    .png()
+    .toBuffer()
+
+  // @ts-expect-error constant may be changed
+  if (SCALE !== 1) {
+    width = Math.round(width * SCALE)
+    height = Math.round(height * SCALE)
+
+    console.log(`Scaling image to ${width}x${height}...`)
+
+    buffer = await sharp(buffer)
+      .resize(width, height, { fit: 'cover' })
+      .toBuffer()
+  }
 
   console.log(`Clearing output directory...`)
   for (const file of fs.readdirSync(OUTPUT_FOLDER)) {
@@ -54,14 +71,13 @@ const CHUNK_COUNT = 80;
   }
 
   for (let index = 0; index < CHUNK_COUNT; index++) {
-    const imageFile = `${String(index + 1).padStart(3, '0')}.webp`
+    const imageFile = `${String(index + 1).padStart(3, '0')}.${FORMAT}`
 
     const top = chunkHeight * index
     console.log(`${imageFile} ${width}x${chunkHeight} at 0x${top}`)
 
     await sharp(buffer)
-      .extract({ top, left: 0, width, height: chunkHeight })
-      .webp({ quality: QUALITY })
+      .extract({ top, left: 0, width, height: chunkHeight })[FORMAT](FORMAT_OPTIONS)
       .toFile(`${OUTPUT_FOLDER}/${imageFile}`)
   }
 
