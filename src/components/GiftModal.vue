@@ -30,8 +30,7 @@ defineEmits<{
         <span class="font-semibold text-secondary">
           {{ gift.name }}
         </span>
-        <br>
-        в Облаке Mail
+        в&nbsp;Облаке Mail
       </p>
     </h2>
 

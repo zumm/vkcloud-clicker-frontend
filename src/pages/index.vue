@@ -70,10 +70,12 @@ whenever(() => giftProgress.value >= 1, async () => {
       return
     }
 
-    await refetchEarnedGifts()
-
     // ensure gift fall animation plays for at least 5s
     await promiseTimeout(5000 - (Date.now() - startedAt))
+
+    // refetching earned gifts after fall animation
+    // to delay triggering navigation guards
+    await refetchEarnedGifts()
 
     lastEarnedGift.value = getLast(earnedGifts.value)
   }

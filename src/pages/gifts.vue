@@ -19,6 +19,7 @@ import Block from '@/components/kit/Block.vue'
 import BlockTitle from '@/components/kit/BlockTitle.vue'
 import Empty from '@/components/kit/Empty.vue'
 import TosLink from '@/components/TosLink.vue'
+import { getLast } from '@/helpers/get-last'
 
 definePage({
   meta: { layout: 'hud' },
@@ -28,6 +29,8 @@ const { data: userData } = useUserData()
 const { data: gifts } = useGifts()
 const { data: earnedGifts } = useEarnedGifts()
 const { data: jackpot } = useJackpot()
+
+const bestGift = computed(() => getLast(earnedGifts.value))
 
 const earnedGiftsIds = computed(() => new Set(earnedGifts.value.map(({ id }) => id)))
 const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGiftsIds.value.has(id)))
@@ -41,17 +44,16 @@ const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGift
       </BlockTitle>
 
       <Empty
-        v-if="earnedGifts.length === 0"
+        v-if="!bestGift"
         icon="icon-[linear--gift]"
       >
         Нет полученных призов
       </Empty>
       <template v-else>
         <GiftCard
-          v-for="gift in earnedGifts"
-          :key="gift.id"
+          :key="bestGift.id"
           class="mt-1"
-          :gift="gift"
+          :gift="bestGift"
         />
 
         <JackpotCard
