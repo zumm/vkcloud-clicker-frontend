@@ -1,4 +1,4 @@
-export class FetchError extends Error {
+export class HttpError extends Error {
   override name = 'FetchError'
 
   constructor(
@@ -10,6 +10,6 @@ export class FetchError extends Error {
   }
 }
 
-export function isFetchError(error: unknown): error is FetchError {
-  return error instanceof FetchError
+export function isHttpError(error: unknown): error is HttpError {
+  return error instanceof HttpError
 }

@@ -1,6 +1,6 @@
-import { FetchError } from '@/errors/fetch-error'
+import { HttpError } from '@/errors/http-error'
 
-export class ApiError extends FetchError {
+export class ApiError extends HttpError {
   override name = 'ApiError'
 }
 
