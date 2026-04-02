@@ -23,7 +23,7 @@ const maxOffset = computed(() => {
 
 const y = motionValue(0)
 watchEffect(() => {
-  y.set(Math.round(progress.value * maxOffset.value))
+  y.set(progress.value * maxOffset.value)
 })
 
 const y_ = useSpring(y, { restDelta: 1, restSpeed: 100 })
@@ -45,9 +45,6 @@ const updateChunkIndex = (y: number) => {
   chunkIndex.value = getChunkIndexByOffset(y)
 }
 
-useMotionValueEvent(y_, 'change', updateChunkIndex)
-updateChunkIndex(y_.get())
-
 const visibleChunks = computed(() => {
   return CHUNKS.slice(chunkIndex.value, chunkIndex.value + chunksPerViewport.value).reverse()
 })
@@ -62,8 +59,15 @@ const updateLocalY = (y: number) => {
   localY.set(y - chunkIndex.value * CHUNK_HEIGHT)
 }
 
-useMotionValueEvent(y_, 'change', updateLocalY)
-updateLocalY(y_.get())
+const onYChange = (y: number) => {
+  const roudedY = Math.round(y)
+
+  updateChunkIndex(roudedY)
+  updateLocalY(roudedY)
+}
+
+useMotionValueEvent(y_, 'change', onYChange)
+onYChange(y_.get())
 
 const CHUNK_STYLES = {
   width: `${CHUNK_WIDTH}px`,
