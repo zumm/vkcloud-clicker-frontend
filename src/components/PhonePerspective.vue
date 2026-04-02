@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core'
-import { Motion, motionValue, useSpring } from 'motion-v'
+import { followValue, Motion, motionValue } from 'motion-v'
 import { storeToRefs } from 'pinia'
 import { computed, useTemplateRef, watch, watchEffect } from 'vue'
 import PhoneMock from '@/components/PhoneMock.vue'
 import { useProgressStore } from '@/stores/progress'
 
-const { giftProgress: progress } = storeToRefs(useProgressStore())
+const { totalProgress: progress } = storeToRefs(useProgressStore())
 
 const rootRef = useTemplateRef('rootRef')
 const { height: rootHeight } = useElementSize(rootRef)
@@ -32,7 +32,7 @@ watchEffect(() => {
   y.set((1 - progress.value) * phoneYOffset.value)
 })
 
-const y_ = useSpring(y)
+const y_ = followValue(y, { type: 'tween' })
 
 // preventing animations to initial state
 watch(rootHeight, (_, oldValue) => {

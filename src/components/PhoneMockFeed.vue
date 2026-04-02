@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MotionValue } from 'motion-v'
 import { useElementSize } from '@vueuse/core'
-import { Motion, motionValue, useMotionValueEvent, useTime } from 'motion-v'
+import { Motion, motionValue, useAnimationFrame } from 'motion-v'
 import { computed, shallowRef, useTemplateRef, watch } from 'vue'
 import { FEED_SPEED } from '@/env'
 
@@ -58,13 +58,11 @@ const updateRowCells = (rowIndex: number, virtualRowIndex: number) => {
   }
 }
 
-const time = useTime()
-useMotionValueEvent(time, 'change', () => {
+useAnimationFrame((_, delta) => {
   if (!cellsRef.value) {
     return
   }
 
-  const delta = time.get() - (time.getPrevious() ?? 0)
   const offset = delta * FEED_SPEED / 1000
 
   for (const [rowIndex, row] of rows.value.entries()) {
@@ -88,11 +86,11 @@ useMotionValueEvent(time, 'change', () => {
 <template>
   <section
     ref="viewportRef"
-    class="relative overflow-hidden px-0.5"
+    class="relative overflow-hidden px-px"
   >
     <div
       ref="probeRef"
-      class="h-15 w-59.5"
+      class="h-14 w-55.5"
     />
 
     <Motion
@@ -106,7 +104,7 @@ useMotionValueEvent(time, 'change', () => {
         :key="columnIndex"
         ref="cellsRef"
         class="
-          size-14.5 rounded-[0.1875rem] bg-primary-lightest bg-cover
+          size-13.5 rounded-[0.1875rem] bg-primary-lightest bg-cover
           bg-no-repeat
         "
         :style="{ backgroundImage: getCellImage(virtualRowIndex, columnIndex) }"
