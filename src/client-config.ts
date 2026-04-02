@@ -22,7 +22,7 @@ const shouldRetry = (error: unknown) => {
 }
 
 const handleRetry = async (error: unknown, retryCount: number) => {
-  if (shouldRetry(error) && retryCount <= 3) {
+  if (shouldRetry(error) && retryCount <= 1) {
     const delay = Math.min(500 * (2 ** retryCount), 20000)
     await promiseTimeout(delay)
     return true
@@ -44,9 +44,9 @@ const handleAuth = async (request: Request, response?: Response) => {
   return false
 }
 
-const createHttpError = (request: Request, response: Response) => {
+const createHttpError = async (request: Request, response: Response) => {
   try {
-    const json = response.clone().json()
+    const json = await response.clone().json()
 
     if (
       'statusCode' in json && typeof json.statusCode === 'number'
@@ -57,7 +57,7 @@ const createHttpError = (request: Request, response: Response) => {
   }
   catch {}
 
-  return new HttpError(response.statusText, request, response)
+  return new HttpError(response.statusText || `${response.status}`, request, response)
 }
 
 const hookedFetch = async (request: Request): Promise<Response> => {
@@ -71,7 +71,7 @@ const hookedFetch = async (request: Request): Promise<Response> => {
       response = await fetch(request)
 
       if (!response.ok) {
-        throw createHttpError(request, response)
+        throw await createHttpError(request, response)
       }
 
       return response
