@@ -1,4 +1,5 @@
 <script lang="ts">
+import { RAFFLE_DATE_TEXT } from '@/env'
 import { useEarnedGifts, useGifts, useJackpot } from '@/loaders/gifts'
 
 // all for local
@@ -50,7 +51,7 @@ const bestEarnedGift = computed(() => getLast(earnedGifts.value))
 
       Результаты объявим
       <span class="font-semibold text-secondary">
-        ДАТА
+        {{ RAFFLE_DATE_TEXT }}
       </span>
       в чат-боте.
     </p>

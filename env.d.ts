@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_DEFAULT_INIT_DATA?: string
   readonly VITE_MILESTONE_EPSILON?: string
   readonly VITE_FEED_SPEED?: string
+  readonly VITE_RAFFLE_DATE_TEXT: string
 }
 
 interface ImportMeta {

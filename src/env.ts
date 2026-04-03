@@ -11,3 +11,4 @@ export const DEFAULT_INIT_DATA = import.meta.env.DEV
 
 export const MILESTONE_EPSILON = Number(import.meta.env.VITE_MILESTONE_EPSILON ?? 250)
 export const FEED_SPEED = Number(import.meta.env.VITE_FEED_SPEED || 100)
+export const RAFFLE_DATE_TEXT = import.meta.env.VITE_RAFFLE_DATE_TEXT
