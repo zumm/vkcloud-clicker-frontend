@@ -94,7 +94,25 @@ const hookedFetch = async (request: Request): Promise<Response> => {
 export const configureClient = () => {
   client.setConfig({
     baseUrl: API_BASE_URL,
-    auth: () => getToken() ?? '',
+    auth: async () => {
+      const token = getToken()
+      if (token) {
+        return token
+      }
+
+      // attempt to refresh token before request
+      // instead of relying on handleAuth
+      // to prevent mass request failures when app first loads
+      // TODO: handle expired token similarly
+      try {
+        await refreshToken()
+      }
+      catch {
+        // delegate token handling to handleAuth
+      }
+
+      return getToken() ?? ''
+    },
     // @ts-expect-error client passes only request to fetch
     fetch: hookedFetch,
   })
