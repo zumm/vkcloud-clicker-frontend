@@ -352,11 +352,17 @@ components:
           type: integer
           minimum: -9007199254740991
           maximum: 9007199254740991
+        legalTextVariant:
+          type: string
+          enum:
+            - SHORT
+            - LONG
       required:
         - id
         - name
         - imageUrl
         - target
+        - legalTextVariant
       additionalProperties: false
       id: GiftViewDto_Output
     GetGiftsResponseDto_Output:
@@ -389,12 +395,18 @@ components:
           type: integer
           minimum: -9007199254740991
           maximum: 9007199254740991
+        legalTextVariant:
+          type: string
+          enum:
+            - SHORT
+            - LONG
       required:
         - id
         - name
         - url
         - imageUrl
         - target
+        - legalTextVariant
       additionalProperties: false
       id: EarnedGiftViewDto_Output
     GetEarnedGiftsResponseDto_Output:

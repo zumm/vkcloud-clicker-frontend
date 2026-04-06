@@ -46,7 +46,6 @@ const bestEarnedGift = computed(() => getLast(earnedGifts.value))
       <GiftCard
         v-if="bestEarnedGift"
         :gift="bestEarnedGift"
-        details-mode="legal"
       />
 
       <JackpotCard
@@ -68,10 +67,7 @@ const bestEarnedGift = computed(() => getLast(earnedGifts.value))
         :alt="bestEarnedGift.name"
       >
 
-      <GiftCard
-        :gift="bestEarnedGift"
-        details-mode="short-legal"
-      />
+      <GiftCard :gift="bestEarnedGift" />
     </template>
     <template v-else>
       <p class="mb-8 text-center text-xl font-medium text-secondary">

@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import type { EarnedGiftViewDtoOutput, GiftViewDtoOutput } from '@/api'
+import GiftDetails from '@/components/GiftDetails.vue'
 import Button from '@/components/kit/Button.vue'
 import Modal from '@/components/kit/Modal.vue'
 
-interface Gift {
-  name: string
-  url: string
-  imageUrl: string | null
-}
+type Gift = GiftViewDtoOutput | EarnedGiftViewDtoOutput
 
 defineProps<{
   gift: Gift
@@ -49,11 +47,16 @@ defineEmits<{
     </p>
 
     <Button
-      class="mt-4 w-full text-center"
+      class="mt-4 mb-2 w-full text-center"
       variant="accent"
       @click="close"
     >
       Продолжить игру
     </Button>
+
+    <GiftDetails
+      :variant="gift.legalTextVariant"
+      on-primary
+    />
   </Modal>
 </template>

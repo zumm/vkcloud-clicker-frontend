@@ -54,6 +54,7 @@ const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGift
           :key="bestGift.id"
           class="mt-1"
           :gift="bestGift"
+          no-legal-text
         />
 
         <JackpotCard
@@ -83,6 +84,7 @@ const availableGifts = computed(() => gifts.value.filter(({ id }) => !earnedGift
           :key="gift.id"
           class="mt-1"
           :gift="gift"
+          no-legal-text
         />
 
         <JackpotCard
