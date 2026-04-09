@@ -29,6 +29,7 @@ const { data: jackpot } = useJackpot()
         class="mt-2"
         :progress-bar-class="isPressed ? 'text-primary-lighter!' : undefined"
         :progress="giftProgress"
+        variant="game"
         no-marks
       />
     </template>

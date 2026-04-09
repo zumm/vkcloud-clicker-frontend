@@ -3,7 +3,7 @@ import type { DataState } from '@pinia/colada'
 import { defineAsyncComponent, onMounted, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
 import CriticalErrorScreen from '@/components/screens/CriticalErrorScreen.vue'
-import LoadingScreen from '@/components/screens/LoadingScreen.vue'
+import PreloaderScreen from '@/components/screens/PreloaderScreen.vue'
 import { useNavigationGuards } from '@/composables/navigation-guards'
 import { preloadImage } from '@/helpers/preload-image'
 import { useGifts, useJackpot } from '@/loaders/gifts'
@@ -106,6 +106,9 @@ onMounted(async () => {
     v-if="error"
     :error="error"
   />
-  <LoadingScreen v-else-if="!isReady" />
+  <PreloaderScreen
+    v-else-if="!isReady"
+    :progress="progress"
+  />
   <App v-else />
 </template>
